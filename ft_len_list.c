@@ -1,49 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   ft_strlen_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbraud <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/20 14:46:31 by tbraud            #+#    #+#             */
-/*   Updated: 2024/03/20 14:46:35 by tbraud           ###   ########.fr       */
+/*   Created: 2024/03/21 16:55:49 by tbraud            #+#    #+#             */
+/*   Updated: 2024/03/21 16:55:50 by tbraud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-char	**ft_free_tab(char **tab)
+size_t	ft_len_list(t_list *stack)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-	return (0);
-}
-
-void	ft_free_list(t_list *stack)
-{
-	t_list	*to_free;
-
 	while (stack->next)
 	{
-		to_free = stack;
 		stack = stack->next;
-		free(to_free);
+		i++;
 	}
-	free(stack);
-}
-
-void	ft_error(int for_free, t_list *stack_A)
-{
-	if (for_free == 1)
-		ft_free_list(stack_A);
-	stack_A = 0;
-	write(2, "Error\n", 7);
-	exit(0);
+	return (i);
 }

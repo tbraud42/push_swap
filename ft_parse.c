@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <stdio.h>
 
 static void	ft_check_duplicates(t_list *stack, int value, char **tab)
 {
@@ -28,24 +29,28 @@ static void	ft_check_duplicates(t_list *stack, int value, char **tab)
 	}
 }
 
-static t_list	*ft_creat_chain(char **tab, int j, t_list *start, t_list *stack)
+static t_list	*ft_creat_chain(char **tab, int *j, t_list *save, t_list *stack)
 {
 	t_list			*new;
 	long long		value;
 
-	value = ft_atoi(tab[j]);
+	value = ft_atoi(tab[*j]);
 	if (value > 2147483647 || value < -2147483648)
 	{
 		ft_free_tab(tab);
-		ft_error(1, start);
+		ft_error(1, save);
 	}
 	new = malloc(sizeof(t_list));
 	if (!new)
-		ft_error(1, start);
+	{
+		ft_free_tab(tab);
+		ft_error(1, save);
+	}
 	stack->next = new;
 	new->value = value;
 	new->next = NULL;
-	ft_check_duplicates(start, value, tab);
+	ft_check_duplicates(save, value, tab);
+	*j += 1;
 	return (new);
 }
 
@@ -55,14 +60,21 @@ static char	**ft_test_num(char **tab)
 	int	j;
 
 	i = 0;
+	if (!tab[i] || !tab[i][0])
+		return (ft_free_tab(tab));
 	while (tab[i])
 	{
 		if (!tab[i] || !tab[i][0])
 			return (ft_free_tab(tab));
 		j = 0;
+		if (tab[i][j] == '+' && (tab[i][j + 1] >= '0' && tab[i][j + 1] <= '9'))
+			j++;
+		else if (tab[i][j] == '-' &&
+		(tab[i][j + 1] >= '0' && tab[i][j + 1] <= '9'))
+			j++;
 		while (tab[i][j])
 		{
-			if (tab[i][j] < '0' || tab[i][j] > '9')
+			if ((tab[i][j] < '0' || tab[i][j] > '9'))
 				return (ft_free_tab(tab));
 			j++;
 		}
@@ -71,12 +83,12 @@ static char	**ft_test_num(char **tab)
 	return (tab);
 }
 
-static t_list	*ft_init_list(char **tab, int j)
+static t_list	*ft_init_list(char **tab)
 {
 	t_list		*stack_a;
 	long long	value;
 
-	value = ft_atoi(tab[j]);
+	value = ft_atoi(tab[0]);
 	if (value > 2147483647 || value < -2147483648)
 	{
 		ft_free_tab(tab);
@@ -84,7 +96,10 @@ static t_list	*ft_init_list(char **tab, int j)
 	}
 	stack_a = malloc(sizeof(t_list));
 	if (!stack_a)
+	{
+		ft_free_tab(tab);
 		ft_error(0, 0);
+	}
 	stack_a->value = value;
 	stack_a->next = NULL;
 	return (stack_a);
@@ -107,15 +122,12 @@ t_list	*ft_parse(char *argv[], int argc)
 		j = 0;
 		if (argc == 1)
 		{
-			stack_a = ft_init_list(tab, j);
+			stack_a = ft_init_list(tab);
 			save_stack = stack_a;
 			j = 1;
 		}
 		while (tab[j])
-		{
-			save_stack = ft_creat_chain(tab, j, stack_a, save_stack);
-			j++;
-		}
+			save_stack = ft_creat_chain(tab, &j, stack_a, save_stack);
 		ft_free_tab(tab);
 		argc++;
 	}
