@@ -21,37 +21,32 @@ void	ft_sort_three(t_list *stack)
 			ft_sa(stack);
 			ft_rra(stack);
 		}
-		else
-			ft_ra(stack);
-	}
-	else
-	{
-		if (stack->next->value > stack->next->next->value)
+		if (stack->next->value < stack->next->next->value)
 		{
-
+			if (stack->value > stack->next->next->value)
+				ft_ra(stack);
+			else
+				ft_sa(stack);
+		}
+	}
+	if (stack->next->value > stack->next->next->value)
+	{
+		if (stack->value > stack->next->next->value)
+			ft_rra(stack);
+		else
+		{
+			ft_ra(stack);
+			ft_sort_three(stack);
 		}
 	}
 }
-
-123
-231
-312
-321
-213
-132
 
 void	ft_sort_two(t_list *stack)
 {
 	t_list	*save;
 
 	if (stack->value > stack->next->value)
-	{
-		save = stack;
-		stack = stack->next;
-		stack->next = save;
-		save->next = NULL;
-		write(1, "sa\n", 3);
-	}
+		ft_sa(stack);
 }
 
 void	ft_swap(int a, int b)

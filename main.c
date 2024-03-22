@@ -13,7 +13,7 @@
 #include "push_swap.h"
 #include <stdio.h>
 
-/*void	pri(t_list *stack)
+void	pri(t_list *stack)
 {
 	t_list	*save;
 
@@ -25,7 +25,7 @@
 	}
 	printf("%d\n", stack->value);
 	ft_free_list(save);
-}*/
+}
 
 int	main(int argc, char *argv[])
 {
@@ -33,13 +33,25 @@ int	main(int argc, char *argv[])
 
 	if (argc == 1)
 		ft_error(0, 0);
-	stack_a = ft_parse(argv, 1)
-	if (ft_len_list(stack_a) == 2)
-		ft_sort_two(&stack_a);
-	else if (ft_len_list(stack_a) == 3)
+	stack_a = ft_parse(argv, 1);
+	/*if (ft_len_list(stack_a) == 2)
+		ft_sort_two(&stack_a);*/
+	if (ft_len_list(stack_a) == 3)
 		ft_sort_three(&stack_a);
-	else
-		ft_sort(&satck_a, ft_strlen_list(stack_a));
+	pri(stack_a);
+	/*else
+		ft_sort(&stack_a, ft_strlen_list(stack_a));*/
 	ft_free_list(stack_a);
 	return (0);
 }
+
+/*if (a first et c second)
+	push a, c, b et sa
+if (c first et b second)
+	push c, b, sa ra , push a, sa et rra 
+if (c first et a second)
+	push c, a, sa push b et sa
+if (b first et c second)
+	push b, c, ra push a sa rra
+if (b first et a second)
+	push b, a, sa push c*/
