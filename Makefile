@@ -10,36 +10,47 @@
 #                                                                              #
 # **************************************************************************** #
 
-CC := clang
-CFLAGS := -Wall -Wextra -Werror
+NAME	:= push_swap
 
-SRC :=	main.c \
-		ft_error.c \
-		ft_parse.c \
-		ft_atoi.c \
-		ft_split.c
-OBJ := $(SRC:.c=.o)
+SRC_DIR	:= src
+OBJ_DIR	:= obj
 
-ifdef DEBUG
-CFLAGS += -g
-endif
+CC		:= clang
+CFLAGS	:= -Wextra -Wall -Werror -g
 
-NAME := push_swap
+INCLUDE	:= -I ./include
 
-all : $(NAME)
+SRC		:= ft_atoi.c ft_error.c ft_parse.c ft_rules.c ft_rules_two.c ft_sort.c  \
+			ft_sort_min.c ft_sort_three.c ft_split.c ft_utils.c main.c 
+OBJ		:= $(SRC:%.c=$(OBJ_DIR)/%.o)
 
-$(NAME) : $(OBJ)
-	$(CC) -o $(NAME) $(OBJ)
+GREEN	:= \033[1;32m
+NC		:= \033[0m
 
-%.o : %.c
-	$(CC) $(CFLAGS) -o $@ -c $<
+all: $(NAME)
 
-clean :
-	rm -rf $(OBJ) $(BONUS_OBJ)
-	
-fclean : clean
-	rm -rf $(NAME)
+$(NAME): $(OBJ)
+	@$(CC) $(OBJ) -o $(NAME) && printf "$(GREEN)✔️ $(NAME)$(NC) compiled\n"
 
-re : fclean $(NAME)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -o $@ -c $< $(INCLUDE) && printf "$(GREEN)✔️ $(notdir $<)$(NC) compiled\n"
 
-.PHONY: all clean fclean re 
+run: $(NAME)
+	@./$(NAME)
+
+clean:
+	@rm -rf $(OBJ_DIR)
+
+fclean: clean
+	@rm -f $(NAME)
+
+re: clean all
+
+valgrind: $(NAME)
+	@valgrind  --show-leak-kinds=all --leak-check=full --track-origins=yes ./$(NAME)
+
+gdb: $(NAME)
+	@gdb ./$(NAME)
+
+.PHONY: all clean fclean re run valgrind gdb
