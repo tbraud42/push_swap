@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_rules_two.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbraud <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tbraud <tbraud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 04:53:55 by tbraud            #+#    #+#             */
-/*   Updated: 2024/04/05 04:53:56 by tbraud           ###   ########.fr       */
+/*   Updated: 2024/04/09 07:16:13 by tbraud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	ft_make_r(t_list **stack)
 	t_list	*tmp;
 
 	save = (*stack)->next;
-	tmp = *stack;
+	tmp = (*stack);
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = (*stack);
@@ -26,23 +26,23 @@ static void	ft_make_r(t_list **stack)
 	(*stack) = save;
 }
 
-void	ft_r(t_list **stack_a, t_list **stack_b, int choice)
+void	ft_r(t_list **s_a, t_list **s_b, int choice)
 {
 	if (choice == 1)
 	{
+		ft_make_r(s_a);
 		write(1, "ra\n", 3);
-		ft_make_r(stack_a);
 	}
 	if (choice == 2)
 	{
+		ft_make_r(s_b);
 		write(1, "rb\n", 3);
-		ft_make_r(stack_b);
 	}
-	else
+	else if (choice == 3)
 	{
+		ft_make_r(s_a);
+		ft_make_r(s_b);
 		write(1, "rr\n", 3);
-		ft_make_r(stack_b);
-		ft_make_r(stack_a);
 	}
 }
 
@@ -51,32 +51,29 @@ static void	ft_make_rr(t_list **stack)
 	t_list	*tmp;
 
 	tmp = (*stack);
-	if (ft_len_list(stack) == 1)
-		ft_error(1, *stack);
 	while (tmp->next && tmp->next->next)
 		tmp = tmp->next;
 	tmp->next->next = (*stack);
 	(*stack) = tmp->next;
 	tmp->next = NULL;
-	write(1, "rra\n", 4);
 }
 
-void	ft_rr(t_list **stack_a, t_list **stack_b, int choice)
+void	ft_rr(t_list **s_a, t_list **s_b, int choice)
 {
 	if (choice == 1)
 	{
+		ft_make_rr(s_a);
 		write(1, "rra\n", 4);
-		ft_make_rr(stack_a);
 	}
 	if (choice == 2)
 	{
+		ft_make_rr(s_b);
 		write(1, "rrb\n", 4);
-		ft_make_rr(stack_b);
 	}
-	else
+	else if (choice == 3)
 	{
+		ft_make_rr(s_a);
+		ft_make_rr(s_b);
 		write(1, "rrr\n", 4);
-		ft_make_rr(stack_b);
-		ft_make_rr(stack_a);
 	}
 }

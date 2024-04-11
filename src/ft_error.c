@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbraud <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tbraud <tbraud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:46:31 by tbraud            #+#    #+#             */
-/*   Updated: 2024/03/20 14:46:35 by tbraud           ###   ########.fr       */
+/*   Updated: 2024/04/07 15:57:43 by tbraud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,5 @@ void	ft_error(int for_free, t_list *stack_A)
 		ft_free_list(&stack_A);
 	stack_A = 0;
 	write(2, "Error\n", 7);
-	exit(0);
+	exit(EXIT_FAILURE);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbraud <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tbraud <tbraud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:46:45 by tbraud            #+#    #+#             */
-/*   Updated: 2024/03/20 14:46:46 by tbraud           ###   ########.fr       */
+/*   Updated: 2024/04/11 16:14:20 by tbraud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static void	ft_check_duplicates(t_list *stack, int value, char **tab)
 
 static t_list	*ft_creat_chain(char **tab, int *j, t_list *save, t_list *stack)
 {
-	t_list			*new;
-	long long		value;
+	t_list		*new;
+	long long	value;
 
 	value = ft_atoi(tab[*j]);
 	if (value > 2147483647 || value < -2147483648)
@@ -48,6 +48,7 @@ static t_list	*ft_creat_chain(char **tab, int *j, t_list *save, t_list *stack)
 	}
 	stack->next = new;
 	new->value = value;
+	new->index = -1;
 	new->next = NULL;
 	ft_check_duplicates(save, value, tab);
 	*j += 1;
@@ -69,8 +70,8 @@ static char	**ft_test_num(char **tab)
 		j = 0;
 		if (tab[i][j] == '+' && (tab[i][j + 1] >= '0' && tab[i][j + 1] <= '9'))
 			j++;
-		else if (tab[i][j] == '-' &&
-		(tab[i][j + 1] >= '0' && tab[i][j + 1] <= '9'))
+		else if (tab[i][j] == '-' && (tab[i][j + 1] >= '0' && tab[i][j
+				+ 1] <= '9'))
 			j++;
 		while (tab[i][j])
 		{
@@ -85,24 +86,25 @@ static char	**ft_test_num(char **tab)
 
 static t_list	*ft_init_list(char **tab)
 {
-	t_list		*stack_a;
+	t_list		*s_a;
 	long long	value;
 
 	value = ft_atoi(tab[0]);
-	if (value > 2147483647 || value < -2147483648)
+	if (value > 2147483647 || value < -2147483648 || ft_test_overflow(tab))
 	{
 		ft_free_tab(tab);
 		ft_error(0, 0);
 	}
-	stack_a = malloc(sizeof(t_list));
-	if (!stack_a)
+	s_a = malloc(sizeof(t_list));
+	if (!s_a)
 	{
 		ft_free_tab(tab);
 		ft_error(0, 0);
 	}
-	stack_a->value = value;
-	stack_a->next = NULL;
-	return (stack_a);
+	s_a->value = value;
+	s_a->index = -1;
+	s_a->next = NULL;
+	return (s_a);
 }
 
 t_list	*ft_parse(char *argv[], int argc)

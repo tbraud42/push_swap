@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_rules.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbraud <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tbraud <tbraud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 13:50:36 by tbraud            #+#    #+#             */
-/*   Updated: 2024/03/22 13:50:38 by tbraud           ###   ########.fr       */
+/*   Updated: 2024/04/08 00:52:12 by tbraud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,48 +16,50 @@ static void	ft_make_s(t_list **stack)
 {
 	t_list	*tmp;
 
-	tmp = (*stack)->next;
-	(*stack)->next = tmp->next;
-	tmp->next = (*stack);
-	(*stack) = tmp;
+	tmp = (*stack);
+	(*stack) = (*stack)->next;
+	tmp->next = (*stack)->next;
+	(*stack)->next = tmp;
 }
 
-void	ft_s(t_list **stack_a, t_list **stack_b, int choice)
+void	ft_s(t_list **s_a, t_list **s_b, int choice)
 {
 	if (choice == 1)
 	{
+		ft_make_s(s_a);
 		write(1, "sa\n", 3);
-		ft_make_s(stack_a);
 	}
 	if (choice == 2)
 	{
+		ft_make_s(s_b);
 		write(1, "sb\n", 3);
-		ft_make_s(stack_b);
 	}
-	else
+	else if (choice == 3)
 	{
+		ft_make_s(s_a);
+		ft_make_s(s_b);
 		write(1, "ss\n", 3);
-		ft_make_s(stack_b);
-		ft_make_s(stack_a);
 	}
 }
 
-void	ft_pa(t_list **stack_a, t_list **stack_b)
+void	ft_pa(t_list **s_a, t_list **s_b)
 {
 	t_list	*tmp;
 
-	tmp = (*stack_b);
-	(*stack_b) = (*stack_b)->next;
-	tmp->next = (*stack_a);
+	tmp = (*s_b);
+	(*s_b) = (*s_b)->next;
+	tmp->next = (*s_a);
+	(*s_a) = tmp;
 	write(1, "pa\n", 3);
 }
 
-void	ft_pb(t_list **stack_a, t_list **stack_b)
+void	ft_pb(t_list **s_a, t_list **s_b)
 {
 	t_list	*tmp;
 
-	tmp = (*stack_a);
-	(*stack_a) = (*stack_a)->next;
-	tmp->next = (*stack_b);
+	tmp = (*s_a);
+	(*s_a) = (*s_a)->next;
+	tmp->next = (*s_b);
+	(*s_b) = tmp;
 	write(1, "pb\n", 3);
 }
