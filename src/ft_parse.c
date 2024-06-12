@@ -6,7 +6,7 @@
 /*   By: tbraud <tbraud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 14:46:45 by tbraud            #+#    #+#             */
-/*   Updated: 2024/04/11 16:14:20 by tbraud           ###   ########.fr       */
+/*   Updated: 2024/04/11 18:15:52 by tbraud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static char	**ft_test_num(char **tab)
 	int	j;
 
 	i = 0;
-	if (!tab[i] || !tab[i][0])
+	if (!tab[i] || !tab[i][0] || ft_test_overflow(tab))
 		return (ft_free_tab(tab));
 	while (tab[i])
 	{
@@ -90,7 +90,7 @@ static t_list	*ft_init_list(char **tab)
 	long long	value;
 
 	value = ft_atoi(tab[0]);
-	if (value > 2147483647 || value < -2147483648 || ft_test_overflow(tab))
+	if (value > 2147483647 || value < -2147483648)
 	{
 		ft_free_tab(tab);
 		ft_error(0, 0);

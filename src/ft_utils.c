@@ -6,7 +6,7 @@
 /*   By: tbraud <tbraud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 23:17:13 by tbraud            #+#    #+#             */
-/*   Updated: 2024/04/11 16:23:15 by tbraud           ###   ########.fr       */
+/*   Updated: 2024/04/17 02:27:14 by tbraud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,16 +75,25 @@ int	ft_test_overflow(char *tab[])
 {
 	int	i;
 	int	j;
+	int	test;
 
 	i = 0;
 	while (tab[i])
 	{
 		j = 0;
-		while (tab[i][j])
+		test = 0;
+		if (tab[i][j] == '-' || tab[i][j] == '+')
 			j++;
-		if (j >= 11)
-			return (0);
+		while (tab[i][j] && tab[i][j] == '0')
+			j++;
+		while (tab[i][j])
+		{
+			test++;
+			j++;
+		}
+		if (test > 11)
+			return (1);
 		i++;
 	}
-	return (1);
+	return (0);
 }

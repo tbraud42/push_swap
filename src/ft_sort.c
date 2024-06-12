@@ -6,7 +6,7 @@
 /*   By: tbraud <tbraud@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 23:18:22 by tbraud            #+#    #+#             */
-/*   Updated: 2024/04/10 19:31:07 by tbraud           ###   ########.fr       */
+/*   Updated: 2024/04/17 02:33:00 by tbraud           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,12 @@ void	ft_sort_five(t_list **s_a, t_list **s_b)
 		ft_rr(s_a, NULL, 1);
 	if ((*s_a)->next->next->next->next->index == 0)
 		ft_rr(s_a, NULL, 1);
-	ft_pb(s_a, s_b);
-	ft_sort_four(s_a, s_b, 1);
-	ft_pa(s_a, s_b);
+	if (ft_already_sort(s_a) == 0)
+	{
+		ft_pb(s_a, s_b);
+		ft_sort_four(s_a, s_b, 1);
+		ft_pa(s_a, s_b);
+	}
 }
 
 void	ft_sort_four(t_list **s_a, t_list **s_b, int index)
@@ -35,9 +38,12 @@ void	ft_sort_four(t_list **s_a, t_list **s_b, int index)
 		ft_r(s_a, NULL, 1);
 	if ((*s_a)->next->next->next->index == index)
 		ft_rr(s_a, NULL, 1);
-	ft_pb(s_a, s_b);
-	ft_sort_three(s_a);
-	ft_pa(s_a, s_b);
+	if (ft_already_sort(s_a) == 0)
+	{
+		ft_pb(s_a, s_b);
+		ft_sort_three(s_a);
+		ft_pa(s_a, s_b);
+	}
 }
 
 void	ft_sort_three(t_list **stack)
